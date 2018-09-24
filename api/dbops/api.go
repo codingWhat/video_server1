@@ -121,6 +121,7 @@ func DeleteVideoInfo(vid string) error {
 	return nil
 }
 
+// vid:video_id,aid:author_id
 func AddNewComments(vid string, aid int, content string) error {
 	id, err := utils.NewUUID()
 	if err != nil {
