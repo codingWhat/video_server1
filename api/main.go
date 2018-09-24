@@ -5,6 +5,22 @@ import (
 	"net/http"
 )
 
+type middleWareHandler struct {
+	r *httprouter.Router
+}
+
+func NewMiddleWareHandler(r *httprouter.Router) http.Handler{
+	m := middleWareHandler{}
+	m.r = r
+	return m
+}
+func (m middleWareHandler) ServeHTTP(w http.ResponseWriter,r *http.Request){
+	// check session
+	validateUserSession(r)
+
+	m.r.ServeHTTP(w,r)
+}
+
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
 
@@ -15,7 +31,8 @@ func RegisterHandlers() *httprouter.Router {
 
 func main() {
 	r := RegisterHandlers()
-	http.ListenAndServe(":8000", r)
+	mh:=NewMiddleWareHandler(r)
+	http.ListenAndServe(":8000", mh)
 }
 
 // golang中每一个goroutine只占4k内存
@@ -26,3 +43,6 @@ func main() {
 	1. data model
 	2. error handling
 */
+
+// 项目执行流程
+//main->middleware(鉴权等)->defs(message,err)->handlers->dbops->response
