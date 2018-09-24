@@ -5,17 +5,17 @@ import (
 	"net/http"
 )
 
-func RegisterHandlers() *httprouter.Router{
-	router:=httprouter.New()
+func RegisterHandlers() *httprouter.Router {
+	router := httprouter.New()
 
-	router.POST("/user",CreateUser)
-	router.POST("/user/:user_name",Login)
+	router.POST("/user", CreateUser)
+	router.POST("/user/:user_name", Login)
 	return router
 }
 
 func main() {
-	r:=RegisterHandlers()
-	http.ListenAndServe(":8000",r)
+	r := RegisterHandlers()
+	http.ListenAndServe(":8000", r)
 }
 
 // golang中每一个goroutine只占4k内存
@@ -25,4 +25,4 @@ func main() {
 校验部分：
 	1. data model
 	2. error handling
- */
+*/
