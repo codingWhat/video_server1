@@ -23,7 +23,7 @@ func AddUserCredential(loginName string,pwd string) error{
 
 // 通过传入的登录名获取其密码
 func GetUserCredential(loginName string) (string,error){
-	stmtSelect,err:=dbConn.Prepare("select pwd from users where loginName = ?")
+	stmtSelect,err:=dbConn.Prepare("select pwd from users where login_name = ?")
 	defer stmtSelect.Close() // 有性能损耗
 	if err!=nil{
 		log.Printf("query user pwd error:%s",err)
@@ -37,7 +37,7 @@ func GetUserCredential(loginName string) (string,error){
 }
 
 func DeleteUser(loginName string,pwd string) error{
-	stmtDelete,err:=dbConn.Prepare("delete from users where loginName = ? and pwd = ?")
+	stmtDelete,err:=dbConn.Prepare("delete from users where login_name = ? and pwd = ?")
 	defer stmtDelete.Close()
 	if err!=nil{
 		log.Printf("Delete user error:%s",err)
